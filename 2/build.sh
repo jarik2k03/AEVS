@@ -1,2 +1,2 @@
-docker build -t dockerapp dockerapp
-docker run -it dockerapp
+docker build -t avs avs
+docker run -it avs

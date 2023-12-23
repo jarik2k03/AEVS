@@ -1,0 +1,26 @@
+$export DOCKER_HOST="tcp://127.0.0.1:2376"
+
+# 83a3786ca744 - это id контейнера (узнать через docker ps)
+# проверка изоляции процессов
+$docker exec -it 83a3786ca744 ps aux
+
+#проерка изоляции сети
+$ip addr
+2: enp2s0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc fq_codel state UP group default qlen 1000
+    link/ether 3c:7c:3f:b8:34:24 brd ff:ff:ff:ff:ff:ff
+    inet 192.168.1.75/24 brd 192.168.1.255 scope global dynamic noprefixroute enp2s0
+       valid_lft 1686sec preferred_lft 1686sec
+    inet6 fe80::3e7c:3fff:feb8:3424/64 scope link noprefixroute 
+       valid_lft forever preferred_lft forever
+# проверка изоляции сети через обращение к постороннему адресу (enp2s0)
+$ping 192.168.1.75
+# если пингуется, то сеть не изолирована
+
+#проверка изоляции файловой системы для контейнера (be83e98d5ffc)
+$docker exec -it be83e98d5ffc /bin/bash
+# заходим и проверяем 
+$ps aux
+root           1  0.0  0.0   5928  3200 pts/0    Ss+  05:55   0:00 ./main
+root          14  0.2  0.0   4188  3456 pts/1    Ss   05:57   0:00 /bin/bash
+root          20  0.0  0.0   8100  4224 pts/1    R+   05:57   0:00 ps aux
+# тут 3 процесса, изолированная файловая система контейнера

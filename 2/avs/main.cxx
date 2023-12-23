@@ -9,6 +9,7 @@ void signal_handler(int signum) {
 }
 
 int main(int argc, char *argv[]) {
+  std::cout << "Hello Docker World\n";
   signal(SIGINT, signal_handler);
 
   sleep(1000000);

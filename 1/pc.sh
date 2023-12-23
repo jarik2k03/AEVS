@@ -82,18 +82,4 @@ do
   # IP-адрес
   ip=$(ip addr show $interface | awk '/inet / {split($2, a, "/"); print a[1]}')
   echo "IP-адрес: $ip"
-
-  speed=$(sudo ethtool $interface | grep Speed | awk '{print $2}')
-  echo "Скорость: $speed"
-
-  #if [ $interface != "lo" ]; then
-        # Выводим информацию о стандарте связи с помощью команды ethtool
-      #  speed1=$(sudo ethtool $interface | grep "Speed:" | awk '{print $2}')
-      #  echo "Стандарт связи для интерфейса $interface: $speed1"
-   # fi
-
-  link_mode1=$(sudo ethtool $interface | grep "Supported link modes" | awk -F': ' '{print $2}' | sed "s/^[ \t]*//")
-  echo "Стандарт связи 1 : $link_mode1"
-  link_mode2=$(sudo ethtool $interface | awk -F: '{print $1}' | grep "base" | tail -n 2 | sed "s/^[ \t]*//")
-  echo "Стандарт связи 2 : $link_mode2"
 done
